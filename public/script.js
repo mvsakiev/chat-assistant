@@ -28,16 +28,50 @@ queryEl.addEventListener('input', () => {
 });
 
 // === Demo send (пока без API): генерим MOCK TutorOutput ===
-askBtn.addEventListener('click', () => {
+askBtn.addEventListener('click', async () => {
   const text = queryEl.value.trim();
   if (!text) return;
   addMsg('user', text);
   queryEl.value = '';
   queryEl.style.height = 'auto';
 
-  const tutor = makeMockTutorOutput({ text, subject: subject.value });
-  addTutorMsg(tutor);
-  rerenderMath();
+  // вызов нормализации
+  try {
+    askBtn.disabled = true;
+    const resp = await fetch('./api/normalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: text,
+        subject: document.querySelector('#subject').value,
+        grade: Number(document.querySelector('#grade').value),
+        style: document.querySelector('#style').value,
+        history: [] // позже будем прокидывать
+      })
+    });
+    const norm = await resp.json();
+    askBtn.disabled = false;
+
+    if (!resp.ok) {
+      addMsg('assistant', 'Не удалось нормализовать запрос. Попробуй ещё раз.');
+      return;
+    }
+
+    // Для шага 3 просто покажем результат нормализации (чтобы убедиться, что всё работает)
+    const preview = [
+      `Тема: ${norm.topic?.name || '—'} (${norm.topic?.id || ''})`,
+      `Интент: ${norm.intent}`,
+      `Подтемы: ${(norm.subtopics||[]).join(', ') || '—'}`,
+      `Цель: ${norm.learning_goal}`,
+      `Нужны уточнения: ${norm.follow_up_needed ? 'да' : 'нет'}`
+    ].join('\n');
+    addMsg('assistant', preview);
+
+  } catch (err) {
+    askBtn.disabled = false;
+    addMsg('assistant', 'Ошибка соединения с API.');
+    console.error(err);
+  }
 });
 
 // === Сообщение простого текста ===

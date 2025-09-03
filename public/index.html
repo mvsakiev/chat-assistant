@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Учебный ассистент — MVP</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Учебный ассистент</h1>
+    <button id="themeToggle" aria-label="Переключить тему">🌙</button>
+  </header>
+
+  <main class="container">
+    <section class="controls card">
+      <div class="row">
+        <label>Предмет
+          <select id="subject">
+            <option value="mathematics">Математика</option>
+            <option value="physics">Физика</option>
+            <option value="chemistry">Химия</option>
+            <option value="biology">Биология</option>
+            <option value="history">История</option>
+          </select>
+        </label>
+        <label>Класс
+          <select id="grade">
+            <option>5</option><option>6</option><option>7</option>
+            <option selected>8</option><option>9</option>
+            <option>10</option><option>11</option>
+          </select>
+        </label>
+        <label>Стиль
+          <select id="style">
+            <option value="simple">Просто</option>
+            <option value="detailed">Подробно</option>
+            <option value="exam">Экзамен</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <textarea id="query" rows="2" placeholder="Сформулируй тему или вопрос (например: Структура ядра клетки)"></textarea>
+        <button id="askBtn">Отправить</button>
+      </div>
+    </section>
+
+    <section id="chat" class="chat" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer">
+    <span class="muted">MVP: без экспорта/импорта диалогов и подсказок</span>
+  </footer>
+
+  <script type="module" src="/script.js"></script>
+</body>
+</html>

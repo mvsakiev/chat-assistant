@@ -91,3 +91,29 @@ select, textarea {
 .quiz-item .explain { margin-top: 6px; color: var(--muted); font-size: 14px; }
 .quiz-actions { margin-top: 8px; display: flex; gap: 8px; }
 .quiz-actions button { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); cursor: pointer; }
+/* ==== Quiz layout polish ==== */
+.quiz-item { border: 1px dashed var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+.quiz-item .q { margin-bottom: 10px; }
+
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opts label { display: flex; align-items: center; gap: 10px; line-height: 1.4; }
+
+.quiz-item input[type="radio"] {
+  width: 20px; height: 20px;
+  accent-color: var(--accent);
+}
+
+.quiz-actions { margin-top: 10px; display: flex; gap: 10px; }
+.quiz-actions .btn-check {
+  padding: 8px 12px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--bg); color: var(--fg); cursor: pointer;
+}
+
+.quiz-item.correct { border-color: var(--good); }
+.quiz-item.wrong { border-color: var(--bad); }
+.quiz-item .explain { margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+/* Mobile tweaks: не даём строкам ломаться странно рядом с радиокнопкой */
+@media (max-width: 640px) {
+  .opts label { align-items: flex-start; }
+}
